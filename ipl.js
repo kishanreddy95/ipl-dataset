@@ -1,29 +1,44 @@
-const csvPath = "./ipl/matches.csv";
-const csv = require('csvtojson');
-const fs = require('fs');
+//JSON Data Generated according to conditions.
+module.exports = {
+  getMatchesPerYear: function(json) {
+     let matchesPerYearObj = {};
+     json.forEach(function(obj) {
+       if(matchesPerYearObj.hasOwnProperty(obj.season)) {
+         matchesPerYearObj[obj.season]++;
+       } else {
+         matchesPerYearObj[obj.season] = 1;
+       }
+     });
+     return matchesPerYearObj;
+   },
+   matchesWonOfAllTeams: function(json) {
+     let matchesWonByTeams = {};
+     json.forEach(function(obj) {
+       if(matchesWonByTeams.hasOwnProperty(obj.winner)) {
+         matchesWonByTeams[obj.winner]++;
+       } else {
+         matchesWonByTeams[obj.winner] = 1;
+       }
+     });
+     console.log(matchesWonByTeams);
+   }
+ };
 
-let iplObj = {};
-
-csv().fromFile(csvPath).then(function(jsonObj) {
-
-    jsonObj.forEach((val) => {
-      if(iplObj.hasOwnProperty(val.season)) {
-        iplObj[val.season]++;
-      } else {
-        iplObj[val.season] = 1;
-      }
-    });
-    console.log(iplObj);
-    fs.writeFile('ipl.json', JSON.stringify(iplObj), function() {});
-
-    return jsonObj;
-});
 
 
-// console.log(value);
-// function toCreateMatchesPerSeason(jsonObj) {
-//   console.log(jsonObj);
-// }
+
+
+
+// csv().fromFile(csvDeliveriesPath).then(function(jsonObj) {
+//     fs.writeFileSync('iplDeliveries.json', JSON.stringify(jsonObj), function() {
+//       let iplDeliveriesObj = JSON.parse(fs.readFileSync('iplDeliveries.json', 'utf8'));
+//     });
+// });
+
+
+
+
+
 
 
 

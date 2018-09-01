@@ -2,7 +2,12 @@ var xhttp = new XMLHttpRequest();
 xhttp.onreadystatechange = function() {
     
     let theObj = JSON.parse(xhttp.responseText);
-    console.log(Object.entries(theObj));
+    console.log(theObj);
+    let arr = [];
+    for(let obj in theObj) {
+      arr.push([obj, theObj[obj]]);
+    }
+    console.log(arr);
     // High Chart
 
     Highcharts.chart('container', {
@@ -39,28 +44,7 @@ xhttp.onreadystatechange = function() {
         },
         series: [{
           name: 'Population',
-          data: [
-            ['Shanghai', 24.2],
-            ['Beijing', 20.8],
-            ['Karachi', 14.9],
-            ['Shenzhen', 13.7],
-            ['Guangzhou', 13.1],
-            ['Istanbul', 12.7],
-            ['Mumbai', 12.4],
-            ['Moscow', 12.2],
-            ['São Paulo', 12.0],
-            ['Delhi', 11.7],
-            ['Kinshasa', 11.5],
-            ['Tianjin', 11.2],
-            ['Lahore', 11.1],
-            ['Jakarta', 10.6],
-            ['Dongguan', 10.6],
-            ['Lagos', 10.6],
-            ['Bengaluru', 10.3],
-            ['Seoul', 9.8],
-            ['Foshan', 9.3],
-            ['Tokyo', 9.3]
-          ],
+          data: arr,
           dataLabels: {
             enabled: true,
             rotation: -90,
