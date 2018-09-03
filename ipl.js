@@ -15,25 +15,34 @@ module.exports = {
      let matchesWonByTeams = {};
      json.forEach(function(obj) {
        if(matchesWonByTeams.hasOwnProperty(obj.winner)) {
-         matchesWonByTeams[obj.winner]++;
+         if(matchesWonByTeams[obj.winner].season.indexOf(obj.season) != -1) {
+           matchesWonByTeams[obj.winner].matches[matchesWonByTeams[obj.winner].season.indexOf(obj.season)]++;
+         } else {
+          matchesWonByTeams[obj.winner].season.push(obj.season);
+          matchesWonByTeams[obj.winner].matches.push(1);
+         }
        } else {
-         matchesWonByTeams[obj.winner] = 1;
+         matchesWonByTeams[obj.winner] = {};
+         matchesWonByTeams[obj.winner].season = [];
+         matchesWonByTeams[obj.winner].matches = [];
+         matchesWonByTeams[obj.winner].season.push(obj.season);
+         matchesWonByTeams[obj.winner].matches.push(1); 
        }
      });
-     console.log(matchesWonByTeams);
+     for(let obj in matchesWonByTeams) {
+       if(matchesWonByTeams[obj].season[0] == "2017") {
+        let season = matchesWonByTeams[obj].season.shift();
+        let match = matchesWonByTeams[obj].matches.shift();
+        matchesWonByTeams[obj].season.push(season);
+        matchesWonByTeams[obj].matches.push(match);
+     }
+    }
+     return matchesWonByTeams;
    }
  };
 
 
 
-
-
-
-// csv().fromFile(csvDeliveriesPath).then(function(jsonObj) {
-//     fs.writeFileSync('iplDeliveries.json', JSON.stringify(jsonObj), function() {
-//       let iplDeliveriesObj = JSON.parse(fs.readFileSync('iplDeliveries.json', 'utf8'));
-//     });
-// });
 
 
 
