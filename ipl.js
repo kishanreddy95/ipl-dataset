@@ -15,28 +15,18 @@ module.exports = {
      let matchesWonByTeams = {};
      json.forEach(function(obj) {
        if(matchesWonByTeams.hasOwnProperty(obj.winner)) {
-         if(matchesWonByTeams[obj.winner].season.indexOf(obj.season) != -1) {
            matchesWonByTeams[obj.winner].matches[matchesWonByTeams[obj.winner].season.indexOf(obj.season)]++;
-         } else {
-          matchesWonByTeams[obj.winner].season.push(obj.season);
-          matchesWonByTeams[obj.winner].matches.push(1);
-         }
        } else {
          matchesWonByTeams[obj.winner] = {};
          matchesWonByTeams[obj.winner].season = [];
          matchesWonByTeams[obj.winner].matches = [];
-         matchesWonByTeams[obj.winner].season.push(obj.season);
-         matchesWonByTeams[obj.winner].matches.push(1); 
+         let seasons = ["2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017"];
+         let matchWins = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+         matchesWonByTeams[obj.winner].season.push(...seasons);
+         matchesWonByTeams[obj.winner].matches.push(...matchWins); 
+         matchesWonByTeams[obj.winner].matches[matchesWonByTeams[obj.winner].season.indexOf(obj.season)]++;
        }
      });
-     for(let obj in matchesWonByTeams) {
-       if(matchesWonByTeams[obj].season[0] == "2017") {
-        let season = matchesWonByTeams[obj].season.shift();
-        let match = matchesWonByTeams[obj].matches.shift();
-        matchesWonByTeams[obj].season.push(season);
-        matchesWonByTeams[obj].matches.push(match);
-     }
-    }
      return matchesWonByTeams;
    }
  };
