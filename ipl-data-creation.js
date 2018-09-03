@@ -5,6 +5,7 @@ const fs = require('fs');
 const functionModules = require('./ipl.js');
 
 let iplMatchesObj= {};
+let iplDeliveriesObj = {};
 
 //Generating a JSON file from csv format.
 csv().fromFile(csvMatchesPath).then(function(jsonObj) {
@@ -14,3 +15,9 @@ csv().fromFile(csvMatchesPath).then(function(jsonObj) {
       fs.writeFileSync('./JSON files/matchesWonByTeam.json', JSON.stringify(functionModules.matchesWonOfAllTeams(iplMatchesObj)));
     });  
 });
+
+csv().fromFile(csvDeliveriesPath).then(function(jsonObj) {
+  fs.writeFile('./JSON files/iplDeliveries.json', JSON.stringify(jsonObj), function() {
+    
+  });
+})

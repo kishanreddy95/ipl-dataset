@@ -21,8 +21,9 @@ module.exports = {
         seasons[obj.season] = 0;
       }
      });
+
      let compareSeasons = Object.keys(seasons);
-     
+
      json.forEach(function(obj) {
        if(matchesWonByTeams.hasOwnProperty(obj.winner)) {
            matchesWonByTeams[obj.winner].matches[compareSeasons.indexOf(obj.season)]++;
@@ -42,6 +43,9 @@ module.exports = {
      mainMatchData.teams = arr;
 
      return mainMatchData;
+   },
+   extraRunsConceeded: function(json) {
+      
    }
  };
 
