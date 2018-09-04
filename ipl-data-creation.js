@@ -19,6 +19,6 @@ csv().fromFile(csvMatchesPath).then(function(jsonObj) {
 csv().fromFile(csvDeliveriesPath).then(function(jsonObj) {
   fs.writeFile('./JSON files/iplDeliveries.json', JSON.stringify(jsonObj), function() {
     iplDeliveriesObj = JSON.parse(fs.readFileSync('./JSON files/iplDeliveries.json', 'utf-8'));
-    functionModules.extraRunsConceeded(iplMatchesObj, iplDeliveriesObj);
+    fs.writeFileSync('./JSON files/extraRuns.json', JSON.stringify(functionModules.extraRunsConceded(iplMatchesObj, iplDeliveriesObj)));
   });
 })

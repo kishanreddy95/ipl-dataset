@@ -57,9 +57,10 @@ module.exports = {
      mainMatchData.teams = arr;
      return mainMatchData;
    },
-   extraRunsConceeded: function(jsonMatches, jsonDeliveries) {
+   extraRunsConceded: function(jsonMatches, jsonDeliveries) {
     let matchId = [];
     let extraRuns = {};
+    let arr = [];
 
     jsonMatches.forEach(function(obj) {
       if(obj.season == "2016") {
@@ -76,7 +77,12 @@ module.exports = {
         }
       }
     });
-    return extraRuns;
+    
+    for(let val in extraRuns) {
+      arr.push([val, extraRuns[val]]);
+    }
+
+    return arr;
    }
  };
 
