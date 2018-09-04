@@ -9,7 +9,7 @@ describe('testMatches', function() {
                 "id": "66",
                 "season": "2008",
             }];
-            expect(functionModules.getMatchesPerYear(result)).to.deep.equal({"2008": 1});
+            expect(functionModules.getMatchesPerYear(result)).to.deep.equal([['2008', 1]]);
         });
     });
 
@@ -18,30 +18,17 @@ describe('testMatches', function() {
           let result = [{
             "id": "1",
             "season": "2008",
-            "city": "Hyderabad",
-            "date": "2017-04-05",
-            "team1": "Sunrisers Hyderabad",
-            "team2": "Royal Challengers Bangalore",
-            "toss_winner": "Royal Challengers Bangalore",
-            "toss_decision": "field",
-            "result": "normal",
-            "dl_applied": "0",
             "winner": "Sunrisers Hyderabad",
-            "win_by_runs": "35",
-            "win_by_wickets": "0",
-            "player_of_match": "Yuvraj Singh",
-            "venue": "Rajiv Gandhi International Stadium, Uppal",
-            "umpire1": "AY Dandekar",
-            "umpire2": "NJ Llong",
-            "umpire3": ""
             }];
-
+            console.log(functionModules.matchesWonOfAllTeams(result));
             expect(functionModules.matchesWonOfAllTeams(result)).to.deep.equal(
-                {   "seasons": ["2008"],
-                    "teams": [{
-                        "name": "Sunrisers Hyderabad",
-                        "matches": [1]}]
+                {   seasons: ['2008'],
+                    teams: [{
+                            name: 'Sunrisers Hyderabad',
+                            data: [1]
+                    }]
                 });
+
             });
         });
 });
