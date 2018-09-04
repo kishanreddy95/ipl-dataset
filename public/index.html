@@ -1,11 +1,15 @@
 <html>
     <head>
-        <script type="text/javascript" src="ipl-front.js"></script>
+        <script type="text/javascript" src="./js/ipl-front.js"></script>
         <!-- High Charts -->
         <script src="https://code.highcharts.com/highcharts.js"></script>
      
     </head>
     <body>
+        <div id="buttons">
+            <button class="ipl-matches-per-season" onclick=controllers.iplMatchesButton()>Ipl Matches per Season</button>
+            <button class="matches-won-by-teams" onclick=controllers.matchesWonByTeamsButton()>Ipl Matches Won by Teams per Season</button>
+        </div>
         <div id="container" style="min-width: 300px; height: 400px; margin: 0 auto"></div>
     </body>
 </html>

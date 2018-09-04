@@ -2,6 +2,7 @@
 module.exports = {
   getMatchesPerYear: function(json) {
      let matchesPerYearObj = {};
+     let arr = [];
      json.forEach(function(obj) {
        if(matchesPerYearObj.hasOwnProperty(obj.season)) {
          matchesPerYearObj[obj.season]++;
@@ -9,7 +10,10 @@ module.exports = {
          matchesPerYearObj[obj.season] = 1;
        }
      });
-     return matchesPerYearObj;
+     for(let obj in matchesPerYearObj) {
+      arr.push([obj, matchesPerYearObj[obj]]);
+    }
+     return arr;
    },
    matchesWonOfAllTeams: function(json) {
      let mainMatchData = {};
@@ -26,12 +30,12 @@ module.exports = {
 
      json.forEach(function(obj) {
        if(matchesWonByTeams.hasOwnProperty(obj.winner)) {
-           matchesWonByTeams[obj.winner].matches[compareSeasons.indexOf(obj.season)]++;
+           matchesWonByTeams[obj.winner].data[compareSeasons.indexOf(obj.season)]++;
        } else {
          matchesWonByTeams[obj.winner] = {};
          matchesWonByTeams[obj.winner].name = obj.winner;
-         matchesWonByTeams[obj.winner].matches = Object.values(seasons);
-         matchesWonByTeams[obj.winner].matches[compareSeasons.indexOf(obj.season)]++;
+         matchesWonByTeams[obj.winner].data = Object.values(seasons);
+         matchesWonByTeams[obj.winner].data[compareSeasons.indexOf(obj.season)]++;
        }
      });
 
@@ -44,10 +48,33 @@ module.exports = {
 
      return mainMatchData;
    },
-   extraRunsConceeded: function(json) {
-      
+   extraRunsConceeded: function(jsonMatches, jsonDeliveries) {
+    let matchId = [];
+    let extraRuns = {};
+
+    jsonMatches.forEach(function(obj) {
+      if(obj.season == "2016") {
+        matchId.push(obj.id);
+      }
+    });
+
+    jsonDeliveries.forEach(function(obj) {
+      if(extraRuns.hasOwnProperty(obj.bowling_team)) {
+        extraRuns[obj.bowling_team] += obj.extra_runs;
+      } else {
+        if(matchId.indexOf([obj.match_id]) != -1) {
+          extraRuns[obj.bowling_team] = obj.extra_runs;
+        }
+      }
+    });
+
+    // console.log(extraRuns);
+
+  
    }
  };
+
+ 
 
 
 

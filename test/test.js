@@ -14,7 +14,7 @@ describe('testMatches', function() {
     });
 
     describe('matchesWonByTeamPerSeason', function() {
-        it('Should return {"seasons": ["2008"], "teams": [ {"name": "Sunrisers Hyderabad","matches": [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]}]}'), function() {
+        it('Should return {"seasons": ["2008"], "teams": [ {"name": "Sunrisers Hyderabad","matches": [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]}]}', function() {
           let result = [{
             "id": "1",
             "season": "2008",
@@ -36,10 +36,12 @@ describe('testMatches', function() {
             "umpire3": ""
             }];
 
-            expect(functionModules.matchesWonOfAllTeams(result)).to.deep.equal({
-            "seasons": ["2008"], 
-            "teams": [ {"name": "Sunrisers Hyderabad","matches": [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]}]
+            expect(functionModules.matchesWonOfAllTeams(result)).to.deep.equal(
+                {   "seasons": ["2008"],
+                    "teams": [{
+                        "name": "Sunrisers Hyderabad",
+                        "matches": [1]}]
+                });
             });
-        });    
-    });    
+        });
 });
