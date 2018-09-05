@@ -33,9 +33,29 @@ describe('testMatches', function () {
         });
     });
 
-    describe('extraRunsConceded', function() {
-        it('',function() {
-            let testOne =  
+    describe('extraRunsConceded', function () {
+        it('Should return [["Royal Challengers Bangalore", 2]]', function () {
+            let testOne = [{
+                "id": "1",
+                "season": "2016",
+            }];
+
+            let testTwo = [{
+                "match_id": 1,
+                "bowling_team": "Royal Challengers Bangalore",
+                "extra_runs": 2
+            }];
+
+            let testThree = [{
+                "id": "1",
+                "season": "2015"
+            }];
+
+            expect(functionModules.extraRunsConceded(testOne, testTwo)).to.deep.equal([
+                ["Royal Challengers Bangalore", 2]
+            ]);
+
+            expect(functionModules.extraRunsConceded(testThree, testTwo)).to.deep.equal([]);
         })
     })
 });

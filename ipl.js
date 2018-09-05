@@ -64,10 +64,9 @@ module.exports = {
 
     jsonMatches.forEach(function(obj) {
       if(obj.season == "2016") {
-        matchId.push(obj.id);
+        matchId.push(parseInt(obj.id));
       }
     });
-
     jsonDeliveries.forEach(function(obj) {
       if(matchId.indexOf(obj.match_id) != -1) {
         if(extraRuns.hasOwnProperty(obj.bowling_team)) {
@@ -77,11 +76,9 @@ module.exports = {
         }
       }
     });
-    
     for(let val in extraRuns) {
       arr.push([val, extraRuns[val]]);
     }
-
     return arr;
    }
  };
