@@ -9,7 +9,7 @@ let controllers = {
   },
   extraRunsButton: function () {
     let button = document.querySelector('.extra-runs-conceded');
-    button.addEventListener('click', jsonCalls.extraRunsConcede());
+    button.addEventListener('click', jsonCalls.extraRunsConceded());
   },
   economicalBowlersButton: function () {
     let button = document.querySelector('.economical-bowlers');
@@ -126,7 +126,7 @@ let jsonCalls = {
     }
     xhttp.send();
   },
-  extraRunsConcede: function () {
+  extraRunsConceded: function () {
     var xhttp = new XMLHttpRequest();
 
     xhttp.open('GET', '../JSON files/extraRuns.json', true);

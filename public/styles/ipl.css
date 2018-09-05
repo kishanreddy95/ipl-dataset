@@ -1,0 +1,7 @@
+/*High Chart Container Styles*/
+
+.container {
+    min-width: 300px; 
+    height: 400px; 
+    margin: 0 auto;
+}

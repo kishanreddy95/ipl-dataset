@@ -5,17 +5,17 @@ module.exports = {
     let arr = [];
 
     //Creating season along with number of matches played.
-    json.forEach(function (obj) {
-      if (matchesPerYearObj.hasOwnProperty(obj.season)) {
-        matchesPerYearObj[obj.season]++;
+    json.forEach(function (matchObj) {
+      if (matchesPerYearObj.hasOwnProperty(matchObj.season)) {
+        matchesPerYearObj[matchObj.season]++;
       } else {
-        matchesPerYearObj[obj.season] = 1;
+        matchesPerYearObj[matchObj.season] = 1;
       }
     });
 
     //Pushing data into an array for getting it in required format.
-    for (let obj in matchesPerYearObj) {
-      arr.push([obj, matchesPerYearObj[obj]]);
+    for (let match in matchesPerYearObj) {
+      arr.push([match, matchesPerYearObj[match]]);
     }
     return arr;
   },
@@ -26,9 +26,9 @@ module.exports = {
     let arr = [];
 
     //Generate Seasons. 
-    json.forEach(function (obj) {
-      if (!seasons.hasOwnProperty([obj.season])) {
-        seasons[obj.season] = 0;
+    json.forEach(function (ipl) {
+      if (!seasons.hasOwnProperty([ipl.season])) {
+        seasons[ipl.season] = 0;
       }
     });
 
@@ -36,20 +36,20 @@ module.exports = {
     let compareSeasons = Object.keys(seasons);
 
     //Generate team data as per seasons array items.
-    json.forEach(function (obj) {
-      if (matchesWonByTeams.hasOwnProperty(obj.winner)) {
-        matchesWonByTeams[obj.winner].data[compareSeasons.indexOf(obj.season)]++;
+    json.forEach(function (iplMatch) {
+      if (matchesWonByTeams.hasOwnProperty(iplMatch.winner)) {
+        matchesWonByTeams[iplMatch.winner].data[compareSeasons.indexOf(iplMatch.season)]++;
       } else {
-        matchesWonByTeams[obj.winner] = {};
-        matchesWonByTeams[obj.winner].name = obj.winner;
-        matchesWonByTeams[obj.winner].data = Object.values(seasons);
-        matchesWonByTeams[obj.winner].data[compareSeasons.indexOf(obj.season)]++;
+        matchesWonByTeams[iplMatch.winner] = {};
+        matchesWonByTeams[iplMatch.winner].name = iplMatch.winner;
+        matchesWonByTeams[iplMatch.winner].data = Object.values(seasons);
+        matchesWonByTeams[iplMatch.winner].data[compareSeasons.indexOf(iplMatch.season)]++;
       }
     });
 
     //Push in the data into an array.
-    for (let val in matchesWonByTeams) {
-      arr.push(matchesWonByTeams[val]);
+    for (let team in matchesWonByTeams) {
+      arr.push(matchesWonByTeams[team]);
     }
 
     //Add seasons and the array with team data onto mainMatchData.
@@ -63,26 +63,26 @@ module.exports = {
     let arr = [];
 
     //Getting Match Id's for 2016.
-    jsonMatches.forEach(function (obj) {
-      if (obj.season == "2016") {
-        matchId.push(parseInt(obj.id));
+    jsonMatches.forEach(function (iplMatches) {
+      if (iplMatches.season == "2016") {
+        matchId.push(parseInt(iplMatches.id));
       }
     });
 
     //Comparing with the Match Id's and calculating extra runs.
-    jsonDeliveries.forEach(function (obj) {
-      if (matchId.indexOf(parseInt(obj.match_id)) != -1) {
-        if (extraRuns.hasOwnProperty(obj.bowling_team)) {
-          extraRuns[obj.bowling_team] += parseInt(obj.extra_runs);
+    jsonDeliveries.forEach(function (match) {
+      if (matchId.indexOf(parseInt(match.match_id)) != -1) {
+        if (extraRuns.hasOwnProperty(match.bowling_team)) {
+          extraRuns[match.bowling_team] += parseInt(match.extra_runs);
         } else {
-          extraRuns[obj.bowling_team] = parseInt(obj.extra_runs);
+          extraRuns[match.bowling_team] = parseInt(match.extra_runs);
         }
       }
     });
 
     //Pushing data into an array for getting it in required format.
-    for (let val in extraRuns) {
-      arr.push([val, extraRuns[val]]);
+    for (let team in extraRuns) {
+      arr.push([team, extraRuns[team]]);
     }
     return arr;
   },
@@ -92,40 +92,40 @@ module.exports = {
     let arr = [];
 
     //Getting Match Id's for 2015.
-    jsonMatches.forEach(function (obj) {
-      if (obj.season == "2015") {
-        matchId.push(parseInt(obj.id));
+    jsonMatches.forEach(function (iplMatches) {
+      if (iplMatches.season == "2015") {
+        matchId.push(parseInt(iplMatches.id));
       }
     });
 
     //Comparing with Match Id's and getting bowler's economy.
-    jsonDeliveries.forEach(function (obj) {
-      if (matchId.indexOf(parseInt(obj.match_id)) != -1) {
-        if (bowlersEconomy.hasOwnProperty([obj.bowler])) {
-          if (obj.wide_runs > 0 || obj.noball_runs > 0) {
-            bowlersEconomy[obj.bowler].runs += parseInt(obj.total_runs);
-            bowlersEconomy[obj.bowler].balls += 0;
+    jsonDeliveries.forEach(function (match) {
+      if (matchId.indexOf(parseInt(match.match_id)) != -1) {
+        if (bowlersEconomy.hasOwnProperty([match.bowler])) {
+          if (match.wide_runs > 0 || match.noball_runs > 0) {
+            bowlersEconomy[match.bowler].runs += parseInt(match.total_runs);
+            bowlersEconomy[match.bowler].balls += 0;
           } else {
-            bowlersEconomy[obj.bowler].runs += parseInt(obj.total_runs);
-            bowlersEconomy[obj.bowler].balls += 1;
+            bowlersEconomy[match.bowler].runs += parseInt(match.total_runs);
+            bowlersEconomy[match.bowler].balls += 1;
           }
         } else {
-          bowlersEconomy[obj.bowler] = {};
-          if (obj.wide_runs > 0 || obj.noball_runs > 0) {
-            bowlersEconomy[obj.bowler].runs = parseInt(obj.total_runs);
-            bowlersEconomy[obj.bowler].balls = 0;
+          bowlersEconomy[match.bowler] = {};
+          if (match.wide_runs > 0 || match.noball_runs > 0) {
+            bowlersEconomy[match.bowler].runs = parseInt(match.total_runs);
+            bowlersEconomy[match.bowler].balls = 0;
           } else {
-            bowlersEconomy[obj.bowler].runs = parseInt(obj.total_runs);
-            bowlersEconomy[obj.bowler].balls = 1;
+            bowlersEconomy[match.bowler].runs = parseInt(match.total_runs);
+            bowlersEconomy[match.bowler].balls = 1;
           }
         }
       }
     });
 
     //Calculating Economy
-    for (let val in bowlersEconomy) {
-      let economy = bowlersEconomy[val].runs / (bowlersEconomy[val].balls / 6);
-      arr.push([val, parseFloat(economy.toFixed(2))]);
+    for (let bowler in bowlersEconomy) {
+      let economy = bowlersEconomy[bowler].runs / (bowlersEconomy[bowler].balls / 6);
+      arr.push([bowler, parseFloat(economy.toFixed(2))]);
     }
 
     //Sorting for top 10 Bowlers
