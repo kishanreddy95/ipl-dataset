@@ -3,6 +3,7 @@ const functionModules = require('../ipl');
 
 describe('testMatches', function () {
 
+    //Matches Won Overral
     describe('matchesWonByTeamOverral', function () {
         it('Should return "2008": 1 as the result', function () {
             let test = [{
@@ -15,6 +16,7 @@ describe('testMatches', function () {
         });
     });
 
+    //Matches Won by Teams Per Season.
     describe('matchesWonByTeamPerSeason', function () {
         it('Should return {"seasons": ["2008"], "teams": [ {"name": "Sunrisers Hyderabad","matches": [0, 1, 0, 0, 0, 0, 0, 0, 0, 0]}]}', function () {
             let test = [{
@@ -33,6 +35,7 @@ describe('testMatches', function () {
         });
     });
 
+    //Extra Runs Conceded by Bowlers For Year 2016.
     describe('extraRunsConceded', function () {
         it('Should return [["Royal Challengers Bangalore", 2]]', function () {
             let testOne = [{
@@ -56,6 +59,71 @@ describe('testMatches', function () {
             ]);
 
             expect(functionModules.extraRunsConceded(testThree, testTwo)).to.deep.equal([]);
-        })
-    })
+        });
+    });
+
+    //Top Economical Bowlers For Year 2015
+    describe('extraRunsConceded', function() {
+        it('Should return match id', function() {
+            let testOne = [{
+                "id": "5",
+                "season": "2015"
+            }];
+
+            let testTwo = [{
+                "match_id": 5,
+                "bowler": "TS Mills",
+                "total_runs": "4",
+                "wide_runs": "0",
+                "noball_runs": "0"
+            },{
+                "match_id": 5,
+                "bowler": "TS Mills",
+                "total_runs": "4",
+                "wide_runs": "0",
+                "noball_runs": "0"
+            },{
+                "match_id": 5,
+                "bowler": "TS Mills",
+                "total_runs": "4",
+                "wide_runs": "0",
+                "noball_runs": "1"
+            },{
+                "match_id": 5,
+                "bowler": "TS Mills",
+                "total_runs": "4",
+                "wide_runs": "0",
+                "noball_runs": "0"
+            },
+            {
+                "match_id": 5,
+                "bowler": "TS Mills",
+                "total_runs": "4",
+                "wide_runs": "0",
+                "noball_runs": "0"
+            },{
+                "match_id": 5,
+                "bowler": "TS Mills",
+                "total_runs": "4",
+                "wide_runs": "0",
+                "noball_runs": "0"
+            },
+            {
+                "match_id": 5,
+                "bowler": "TS Mills",
+                "total_runs": "4",
+                "wide_runs": "0",
+                "noball_runs": "0"
+            },
+            {
+                "match_id": 5,
+                "bowler": "A Choudhary",
+                "total_runs": "4",
+                "wide_runs": "0",
+                "noball_runs": "0"
+            }];
+
+            expect(functionModules.economicalBowlers(testOne, testTwo)).to.deep.equal([["A Choudhary", 24.00],["TS Mills", 28.00]]);
+        });
+    });
 });
