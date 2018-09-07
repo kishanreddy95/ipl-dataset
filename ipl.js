@@ -1,54 +1,54 @@
-//JSON Data Generated according to conditions.
+// JSON Data Generated according to conditions.
 module.exports = {
-  getMatchesPerYear: function (json) {
-    let matchesPerYearObj = {};
-    let arr = [];
+  getMatchesPerYear: (json) => {
+    const arrOfMatches = [];
 
-    //Creating season along with number of matches played.
-    json.forEach(function (matchObj) {
-      if (matchesPerYearObj.hasOwnProperty(matchObj.season)) {
-        matchesPerYearObj[matchObj.season]++;
+    // Creating season along with number of matches played.
+    const matchesPerYearObj = json.reduce((ipl, match) => {
+      if (match.season in ipl) {
+        ipl [match.season] += 1;
       } else {
-        matchesPerYearObj[matchObj.season] = 1;
+        ipl[match.season] = 1;
       }
-    });
+      return ipl;
+    }, {})
 
-    //Pushing data into an array for getting it in required format.
-    for (let match in matchesPerYearObj) {
-      arr.push([match, matchesPerYearObj[match]]);
+    // Pushing data into an array for getting it in required format.
+    for (const match in matchesPerYearObj) {
+      arrOfMatches.push([match, matchesPerYearObj[match]]);
     }
-    return arr;
+    return arrOfMatches;
   },
   matchesWonOfAllTeams: function (json) {
-    let mainMatchData = {};
-    let matchesWonByTeams = {};
-    let seasons = {};
-    let arr = [];
+    const mainMatchData = {};
+    const arr = [];
 
-    //Generate Seasons. 
-    json.forEach(function (ipl) {
-      if (!seasons.hasOwnProperty([ipl.season])) {
-        seasons[ipl.season] = 0;
+    // Generate Seasons. 
+    let seasons = json.reduce((season, currentMatch) => {
+      if(!season.hasOwnProperty(currentMatch.season)){
+        season[currentMatch.season] = 0;
       }
-    });
+      return season;
+    },{});
 
     //Get seasons as a list of array items.
-    let compareSeasons = Object.keys(seasons);
+    const compareSeasons = Object.keys(seasons);
 
     //Generate team data as per seasons array items.
-    json.forEach(function (iplMatch) {
-      if (matchesWonByTeams.hasOwnProperty(iplMatch.winner)) {
-        matchesWonByTeams[iplMatch.winner].data[compareSeasons.indexOf(iplMatch.season)]++;
+    let matchesWonByTeams = json.reduce((current, iplMatch) => {
+      if (current.hasOwnProperty(iplMatch.winner)) {
+        current[iplMatch.winner].data[compareSeasons.indexOf(iplMatch.season)]++;
       } else {
-        matchesWonByTeams[iplMatch.winner] = {};
-        matchesWonByTeams[iplMatch.winner].name = iplMatch.winner;
-        matchesWonByTeams[iplMatch.winner].data = Object.values(seasons);
-        matchesWonByTeams[iplMatch.winner].data[compareSeasons.indexOf(iplMatch.season)]++;
+        current[iplMatch.winner] = {};
+        current[iplMatch.winner].name = iplMatch.winner;
+        current[iplMatch.winner].data = Object.values(seasons);
+        current[iplMatch.winner].data[compareSeasons.indexOf(iplMatch.season)]++;
       }
-    });
+      return current;
+    }, {});
 
-    //Push in the data into an array.
-    for (let team in matchesWonByTeams) {
+    // //Push in the data into an array.
+    for (const team in matchesWonByTeams) {
       arr.push(matchesWonByTeams[team]);
     }
 
@@ -58,48 +58,50 @@ module.exports = {
     return mainMatchData;
   },
   extraRunsConceded: function (jsonMatches, jsonDeliveries) {
-    let matchId = [];
-    let extraRuns = {};
-    let arr = [];
+    // const matchId = [];
+    // const extraRuns = {};
+    const arr = [];
 
     //Getting Match Id's for 2016.
-    jsonMatches.forEach(function (iplMatches) {
+    let matchId = jsonMatches.reduce((id, iplMatches) => {
       if (iplMatches.season == "2016") {
-        matchId.push(parseInt(iplMatches.id));
+        id.push(parseInt(iplMatches.id));
       }
-    });
+      return id;
+    },[]);
 
     //Comparing with the Match Id's and calculating extra runs.
-    jsonDeliveries.forEach(function (match) {
+    let extraRuns = jsonDeliveries.reduce((extraRun, match) => {
       if (matchId.indexOf(parseInt(match.match_id)) != -1) {
-        if (extraRuns.hasOwnProperty(match.bowling_team)) {
-          extraRuns[match.bowling_team] += parseInt(match.extra_runs);
+        if (extraRun.hasOwnProperty(match.bowling_team)) {
+          extraRun[match.bowling_team] += parseInt(match.extra_runs);
         } else {
-          extraRuns[match.bowling_team] = parseInt(match.extra_runs);
+          extraRun[match.bowling_team] = parseInt(match.extra_runs);
         }
       }
-    });
+      return extraRun
+    },{});
 
     //Pushing data into an array for getting it in required format.
-    for (let team in extraRuns) {
+    for (const team in extraRuns) {
       arr.push([team, extraRuns[team]]);
     }
     return arr;
   },
   economicalBowlers: function (jsonMatches, jsonDeliveries) {
-    let matchId = [];
-    let bowlersEconomy = {};
-    let arr = [];
+    const matchId = [];
+    const bowlersEconomy = {};
+    const arr = [];
 
     //Getting Match Id's for 2015.
-    jsonMatches.forEach(function (iplMatches) {
+    jsonMatches.forEach((iplMatches) => {
       if (iplMatches.season == "2015") {
         matchId.push(parseInt(iplMatches.id));
       }
     });
 
     //Comparing with Match Id's and getting bowler's economy.
-    jsonDeliveries.forEach(function (match) {
+    jsonDeliveries.forEach((match) => {
       if (matchId.indexOf(parseInt(match.match_id)) != -1) {
         if (bowlersEconomy.hasOwnProperty([match.bowler])) {
           if (match.wide_runs > 0 || match.noball_runs > 0) {
@@ -123,13 +125,13 @@ module.exports = {
     });
 
     //Calculating Economy
-    for (let bowler in bowlersEconomy) {
-      let economy = bowlersEconomy[bowler].runs / (bowlersEconomy[bowler].balls / 6);
+    for (const bowler in bowlersEconomy) {
+      const economy = bowlersEconomy[bowler].runs / (bowlersEconomy[bowler].balls / 6);
       arr.push([bowler, parseFloat(economy.toFixed(2))]);
     }
 
     //Sorting for top 10 Bowlers
-    arr.sort(function (a, b) {
+    arr.sort((a, b) => {
       return a[1] - b[1];
     })
     arr.splice(10, arr.length);
