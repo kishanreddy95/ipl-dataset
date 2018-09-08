@@ -1,7 +1,6 @@
 // JSON Data Generated according to conditions.
 module.exports = {
   getMatchesPerYear: (json) => {
-    const arrOfMatches = [];
 
     // Creating season along with number of matches played.
     const matchesPerYearObj = json.reduce((ipl, match) => {
@@ -11,17 +10,16 @@ module.exports = {
         ipl[match.season] = 1;
       }
       return ipl;
-    }, {})
+    }, {});
 
-    // Pushing data into an array for getting it in required format.
-    for (const match in matchesPerYearObj) {
-      arrOfMatches.push([match, matchesPerYearObj[match]]);
-    }
+    let arrOfMatches = Object.keys(matchesPerYearObj).map((key) => {
+      return [key, matchesPerYearObj[key]];
+    } );
+
     return arrOfMatches;
   },
   matchesWonOfAllTeams: function (json) {
     const mainMatchData = {};
-    const arr = [];
 
     // Generate Seasons. 
     let seasons = json.reduce((season, currentMatch) => {
@@ -47,28 +45,19 @@ module.exports = {
       return current;
     }, {});
 
-    // //Push in the data into an array.
-    for (const team in matchesWonByTeams) {
-      arr.push(matchesWonByTeams[team]);
-    }
-
     //Add seasons and the array with team data onto mainMatchData.
     mainMatchData.seasons = compareSeasons;
-    mainMatchData.teams = arr;
+    mainMatchData.teams = Object.values(matchesWonByTeams);
+
     return mainMatchData;
   },
   extraRunsConceded: function (jsonMatches, jsonDeliveries) {
-    // const matchId = [];
-    // const extraRuns = {};
-    const arr = [];
+    const highChartArr = [];
 
     //Getting Match Id's for 2016.
-    let matchId = jsonMatches.reduce((id, iplMatches) => {
-      if (iplMatches.season == "2016") {
-        id.push(parseInt(iplMatches.id));
-      }
-      return id;
-    },[]);
+    let matchId = jsonMatches.filter((match) => {
+        return match.season == "2016";
+    }).map(match => parseInt(match.id));
 
     //Comparing with the Match Id's and calculating extra runs.
     let extraRuns = jsonDeliveries.reduce((extraRun, match) => {
@@ -82,61 +71,59 @@ module.exports = {
       return extraRun
     },{});
 
+    
     //Pushing data into an array for getting it in required format.
-    for (const team in extraRuns) {
-      arr.push([team, extraRuns[team]]);
-    }
-    return arr;
+    let extraRunArray = Object.keys(extraRuns).map((team) => {
+      return [team, extraRuns[team]];
+    })
+  
+    return extraRunArray;
   },
   economicalBowlers: function (jsonMatches, jsonDeliveries) {
-    const matchId = [];
-    const bowlersEconomy = {};
-    const arr = [];
 
-    //Getting Match Id's for 2015.
-    jsonMatches.forEach((iplMatches) => {
-      if (iplMatches.season == "2015") {
-        matchId.push(parseInt(iplMatches.id));
-      }
-    });
+    //Getting Match Id's for 2015
 
-    //Comparing with Match Id's and getting bowler's economy.
-    jsonDeliveries.forEach((match) => {
+    let matchId = jsonMatches.filter((match) => {
+      return match.season == "2015";
+    }).map((match) => parseInt(match.id));
+
+    //Comparing with Match Id's and getting bowler's economy
+    let bowlersEconomy = jsonDeliveries.reduce((bowlers, match) => {
       if (matchId.indexOf(parseInt(match.match_id)) != -1) {
-        if (bowlersEconomy.hasOwnProperty([match.bowler])) {
+        if (bowlers.hasOwnProperty([match.bowler])) {
           if (match.wide_runs > 0 || match.noball_runs > 0) {
-            bowlersEconomy[match.bowler].runs += parseInt(match.total_runs);
-            bowlersEconomy[match.bowler].balls += 0;
+            bowlers[match.bowler].runs += parseInt(match.total_runs);
+            bowlers[match.bowler].balls += 0;
           } else {
-            bowlersEconomy[match.bowler].runs += parseInt(match.total_runs);
-            bowlersEconomy[match.bowler].balls += 1;
+            bowlers[match.bowler].runs += parseInt(match.total_runs);
+            bowlers[match.bowler].balls += 1;
           }
         } else {
-          bowlersEconomy[match.bowler] = {};
+          bowlers[match.bowler] = {};
           if (match.wide_runs > 0 || match.noball_runs > 0) {
-            bowlersEconomy[match.bowler].runs = parseInt(match.total_runs);
-            bowlersEconomy[match.bowler].balls = 0;
+            bowlers[match.bowler].runs = parseInt(match.total_runs);
+            bowlers[match.bowler].balls = 0;
           } else {
-            bowlersEconomy[match.bowler].runs = parseInt(match.total_runs);
-            bowlersEconomy[match.bowler].balls = 1;
+            bowlers[match.bowler].runs = parseInt(match.total_runs);
+            bowlers[match.bowler].balls = 1;
           }
         }
       }
-    });
+      return bowlers;
+    }, {});
 
     //Calculating Economy
-    for (const bowler in bowlersEconomy) {
-      const economy = bowlersEconomy[bowler].runs / (bowlersEconomy[bowler].balls / 6);
-      arr.push([bowler, parseFloat(economy.toFixed(2))]);
-    }
+    let calculateEconomy = Object.keys(bowlersEconomy).map((key) => {
+      let economy = bowlersEconomy[key].runs / (bowlersEconomy[key].balls/6);
+      let conversion = economy.toFixed(2);
+      return [key, parseFloat(conversion)];
+    });
 
-    //Sorting for top 10 Bowlers
-    arr.sort((a, b) => {
-      return a[1] - b[1];
-    })
-    arr.splice(10, arr.length);
+    //Getting economical bowlers who have economy below 7
+    let economyArr = calculateEconomy.filter(function(bowler) {
+      return bowler[1] < 7; 
+    });
 
-
-    return arr;
+    return economyArr;
   }
 };

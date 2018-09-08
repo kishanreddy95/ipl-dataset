@@ -73,57 +73,50 @@ describe('testMatches', function () {
             let testTwo = [{
                 "match_id": 5,
                 "bowler": "TS Mills",
-                "total_runs": "4",
+                "total_runs": "1",
                 "wide_runs": "0",
                 "noball_runs": "0"
             },{
                 "match_id": 5,
                 "bowler": "TS Mills",
-                "total_runs": "4",
+                "total_runs": "0",
                 "wide_runs": "0",
                 "noball_runs": "0"
             },{
                 "match_id": 5,
                 "bowler": "TS Mills",
-                "total_runs": "4",
+                "total_runs": "0",
                 "wide_runs": "0",
                 "noball_runs": "1"
             },{
                 "match_id": 5,
                 "bowler": "TS Mills",
-                "total_runs": "4",
+                "total_runs": "1",
                 "wide_runs": "0",
                 "noball_runs": "0"
             },
             {
                 "match_id": 5,
                 "bowler": "TS Mills",
-                "total_runs": "4",
+                "total_runs": "1",
                 "wide_runs": "0",
                 "noball_runs": "0"
             },{
                 "match_id": 5,
                 "bowler": "TS Mills",
-                "total_runs": "4",
+                "total_runs": "0",
                 "wide_runs": "0",
                 "noball_runs": "0"
             },
             {
                 "match_id": 5,
                 "bowler": "TS Mills",
-                "total_runs": "4",
-                "wide_runs": "0",
-                "noball_runs": "0"
-            },
-            {
-                "match_id": 5,
-                "bowler": "A Choudhary",
-                "total_runs": "4",
+                "total_runs": "0",
                 "wide_runs": "0",
                 "noball_runs": "0"
             }];
 
-            expect(functionModules.economicalBowlers(testOne, testTwo)).to.deep.equal([["A Choudhary", 24.00],["TS Mills", 28.00]]);
+            expect(functionModules.economicalBowlers(testOne, testTwo)).to.deep.equal([["TS Mills", 3.00]]);
         });
     });
 });
