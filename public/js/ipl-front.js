@@ -21,7 +21,7 @@ let jsonCalls = {
   iplMatchesPerYear: function () {
     var xhttp = new XMLHttpRequest();
 
-    xhttp.open("GET", "../JSON files/iplMatchesPerYear.json", true);
+    xhttp.open("GET", "./JSON files/iplMatchesPerYear.json", true);
 
     xhttp.onload = function () {
       if (this.status == "200") {
@@ -87,7 +87,7 @@ let jsonCalls = {
   matchesWonByTeam: function () {
     var xhttp = new XMLHttpRequest();
 
-    xhttp.open('GET', '../JSON files/matchesWonByTeam.json', true);
+    xhttp.open('GET', './JSON files/matchesWonByTeam.json', true);
 
     xhttp.onload = function () {
       if (this.status == "200") {
@@ -129,7 +129,7 @@ let jsonCalls = {
   extraRunsConceded: function () {
     var xhttp = new XMLHttpRequest();
 
-    xhttp.open('GET', '../JSON files/extraRuns.json', true);
+    xhttp.open('GET', './JSON files/extraRuns.json', true);
 
     xhttp.onload = function () {
       if (this.status == "200") {
@@ -195,7 +195,7 @@ let jsonCalls = {
   economicalBowlers: function () {
     var xhttp = new XMLHttpRequest();
 
-    xhttp.open("GET", "../JSON files/economicalBowlers.json", true);
+    xhttp.open("GET", "./JSON files/economicalBowlers.json", true);
 
     xhttp.onload = function () {
       if (this.status == "200") {
